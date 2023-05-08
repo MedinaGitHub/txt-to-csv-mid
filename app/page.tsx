@@ -47,7 +47,6 @@ export default function Home() {
         const txtContent = event.target?.result as string;
         const csv = processTxtToCsv(txtContent);
         setCsvContent(csv);
-        // New lines
         const fileName = file.name.replace(".txt", ".csv");
       } catch (err) {
         setError("Error processing the file. Please check the file format.");
@@ -61,7 +60,8 @@ export default function Home() {
   const processTxtToCsv = (txtContent: string): string => {
     const regex = /\d{4} \d{4} \d{7}/g;
     const matches = txtContent.match(regex);
-    const accountNumbers = matches ? matches : [];
+    const accountNumbers = matches ? matches.map((match) => match.replace(/ /g, "")) : [];
+    accountNumbers.unshift('MID');
     return accountNumbers.join("\n");
   };
 
